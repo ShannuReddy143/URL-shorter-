@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        /* CSS for styling the URL shortener */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            word-wrap: break-word;
+        }
+        #result a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        #result a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            input[type="text"], button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <input type="text" id="longUrl" placeholder="Enter your long URL here">
+        <button onclick="shortenUrl()">Shorten URL</button>
+        <div id="result"></div>
+        <div id="error" class="error"></div>
+    </div>
+
+    <script>
+        // JavaScript for handling URL shortening
+        function shortenUrl() {
+            const longUrl = document.getElementById('longUrl').value.trim();
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+
+            // Clear previous results
+            resultDiv.innerHTML = '';
+            errorDiv.innerHTML = '';
+
+            // Basic URL validation
+            const urlPattern = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+[/#?]?.*)$/i;
+            if (!longUrl || !urlPattern.test(longUrl)) {
+                errorDiv.innerHTML = 'Please enter a valid URL';
+                return;
+            }
+
+            // Simulate URL shortening (replace this with actual backend API call)
+            const shortUrl = simulateUrlShortening(longUrl);
+
+            // Display the shortened URL
+            resultDiv.innerHTML = `Shortened URL: <a href="${shortUrl}" target="_blank">${shortUrl}</a>`;
+        }
+
+        // Simulate URL shortening (for demo purposes)
+        function simulateUrlShortening(longUrl) {
+            // In a real application, this would be an API call to a backend service
+            // Example: fetch('/api/shorten', { method: 'POST', body: JSON.stringify({ url: longUrl }) })
+            // For demo, we generate a fake short URL
+            const randomString = Math.random().toString(36).substring(2, 8);
+            return `https://short.ly/${randomString}`;
+        }
+
+        // Optional: Handle Enter key press
+        document.getElementById('longUrl').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                shortenUrl();
+            }
+        });
+    </script>
+</body>
+</html>
